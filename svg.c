@@ -5,6 +5,7 @@
 
 #define cordx(var) (((var)-ctx->ofx)*(ctx->mx))
 #define cordy(var) (((var)-ctx->ofy)*(ctx->my))
+//TODO: Refactoring
 
 typedef struct svg_context
 {
@@ -16,7 +17,7 @@ typedef struct svg_context
     unsigned int stroke_width;
 
     bool stroke, fill;
-    /*documnet*/
+    /*document*/
     int padding;
     int width, height;
     bool flip;
@@ -244,7 +245,7 @@ void max_min(double *data, double *min, double *max, size_t count)
 void svg_draw_to_file_xy(FILE *f, const char *color,
                          double *y, double *x, size_t count,
                          const char *xlabel, const char *ylabel,
-                         int decimails, bool html)
+                         int decimal, bool html)
 {
     double min_y, min_x, max_y, max_x;
     double height, width, t;
@@ -270,7 +271,7 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
         fprintf(f, "<body>\n");
     }
     svg_doc(ctx);
-    ctx->decimals = decimails;
+    ctx->decimals = decimal;
     mx = (ctx->width - 2 * ctx->padding) / (float) width;
     my = (ctx->height - 2 * ctx->padding) / (float) height;
     fprintf(f, "<defs>\n");
@@ -426,12 +427,12 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
 void svg_draw_to_file_y(FILE *f, const char *color,
                         double *y, size_t count,
                         const char *xlabel, const char *ylabel,
-                        int decimals, bool html)
+                        int decimal, bool html)
 {
     double *x = (double*) malloc(sizeof (double)*count);
     size_t i;
     for (i = 0; i < count; ++i)
         x[i] = i;
-    svg_draw_to_file_xy(f, color, y, x, count, xlabel, ylabel, decimals, html);
+    svg_draw_to_file_xy(f, color, y, x, count, xlabel, ylabel, decimal, html);
     free(x);
 }
