@@ -244,7 +244,7 @@ void max_min(double *data, double *min, double *max, size_t count)
 void svg_draw_to_file_xy(FILE *f, const char *color,
                          double *y, double *x, size_t count,
                          const char *xlabel, const char *ylabel,
-                         int decimails,bool html)
+                         int decimails, bool html)
 {
     double min_y, min_x, max_y, max_x;
     double height, width, t;
@@ -263,11 +263,12 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
 
     /* Begin document */
     ctx = svg_create(f);
-	if(html){
-		fprintf(f,"<!DOCTYPE html>\n");
-		fprintf(f,"<html>\n");
-		fprintf(f,"<body>\n");
-	}
+    if (html)
+    {
+        fprintf(f, "<!DOCTYPE html>\n");
+        fprintf(f, "<html>\n");
+        fprintf(f, "<body>\n");
+    }
     svg_doc(ctx);
     ctx->decimals = decimails;
     mx = (ctx->width - 2 * ctx->padding) / (float) width;
@@ -282,7 +283,7 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
     svg_set_stroke(ctx, "#aaaaaa");
 
     ctx->stroke_width = 1;
-    for (t = min_x + width / 10.0; t < max_x; t = t + width / 10)
+    for (t = min_x + width / 10.0; t / max_x < 0.96; t = t + width / 10)
     {
         tx = (t - min_x) * mx + ctx->padding;
 
@@ -306,7 +307,7 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
     svg_set_stroke(ctx, "#aaaaaa");
 
     ctx->stroke_width = 1;
-    for (t = min_y + height / 10.0; t < max_y; t = t + height / 10.0)
+    for (t = min_y + height / 10.0; t / max_y < 0.96; t = t + height / 10.0)
     {
         ty = ctx->height - (t - min_y) * my - ctx->padding;
         svg_set_dash(ctx, "5,5");
@@ -331,9 +332,10 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
 
 
         /* Plot data */
-        svg_set_stroke(ctx, "#000000");
+        svg_set_stroke(ctx, color);
         svg_set_dash(ctx, "");
         svg_path_data(ctx, x, y, count);
+        svg_set_stroke(ctx, "#000000");
 
     }
     svg_tag_end(ctx, "g");
@@ -414,16 +416,17 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
 
 
     svg_finish(ctx);
-	if(html){
-		fprintf(f,"</body>\n");
-		fprintf(f,"</html>");
-	}
+    if (html)
+    {
+        fprintf(f, "</body>\n");
+        fprintf(f, "</html>");
+    }
 }
 
 void svg_draw_to_file_y(FILE *f, const char *color,
                         double *y, size_t count,
                         const char *xlabel, const char *ylabel,
-                        int decimals,bool html)
+                        int decimals, bool html)
 {
     double *x = (double*) malloc(sizeof (double)*count);
     size_t i;
