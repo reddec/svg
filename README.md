@@ -3,6 +3,10 @@ svg
 
 Lightweight C plotting library without special dependencies for Linux and Win
 
+## Example
+
+![Sin](https://raw.githubusercontent.com/reddec/svg/master/doc/sin.png)
+
 ## API
 
 Full version
