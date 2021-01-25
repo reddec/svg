@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "svg.h"
 #define MARKER_ARROW fprintf(f,"<marker id=\"markerArrow\" markerWidth=\"13\" markerHeight=\"13\" refX=\"7\" refY=\"6\" orient=\"auto\">\n<path d=\"M2,8 L11,6 L2,4 Z\" style=\"fill: #000000;stroke: black;\" />    </marker>")
 
@@ -57,17 +55,9 @@ void svg_finish(svg_context *ctx)
     free(ctx);
 }
 
-void svg_doc_viewbox(svg_context *ctx, int viewport_minx, int viewport_miny,
-                     int vpw, int vph)
-{
-    fprintf(ctx->f, "<svg width=\"%i\" height=\"%i\" viewBox=\"%i %i %i %i\">",
-            ctx->width, ctx->height, viewport_minx, viewport_miny, vpw, vph);
-}
-
 void svg_doc(svg_context *ctx)
 {
-    fprintf(ctx->f, "<svg width=\"%i\" height=\"%i\">",
-            ctx->width, ctx->height);
+	fprintf(ctx->f, "<svg version=\"1.2\" width=\"%i\" height=\"%i\" xmlns=\"http://www.w3.org/2000/svg\">", ctx->width, ctx->height);
 }
 
 void svg_tag_start(svg_context *ctx, const char *name, bool use_opt)
@@ -252,7 +242,6 @@ void svg_draw_to_file_xy(FILE *f, const char *color,
     float mx, my;
     double tx, ty;
     char temp[30];
-    size_t i;
     svg_context *ctx;
     if (count == 0)return;
     min_x = x[0];
