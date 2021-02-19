@@ -6,10 +6,10 @@ Developed with C89 standart. Successfull build on gcc-4.8 and Visual C compiller
 
 ## Example
 
-```c++
-
+```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "svg.h"
 
 int main(int argc, char** argv)
@@ -33,11 +33,14 @@ int main(int argc, char** argv)
 }
 ```
 
-Sometime requires use mathlib
+Compile the example:
 
-`gcc main.c -lm`
+```
+$ gcc main.c svg.c -lm
+$ ./a.out
+```
 
-
+Output of `sin.svg`:
 
 ![Sin](https://raw.githubusercontent.com/reddec/svg/master/doc/sin.png)
 
